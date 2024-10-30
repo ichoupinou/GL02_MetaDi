@@ -1,7 +1,7 @@
-var Engine = {
+var Radio = {
 	check: function(){
 	console.log("Radio Ready !")
 	return true
 	}
 }
-module.exports = Engine
+module.exports = Radio
