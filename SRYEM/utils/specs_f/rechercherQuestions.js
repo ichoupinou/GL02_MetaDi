@@ -1,3 +1,7 @@
+
+
+
+
 function rechercherQuestions(motCle, questionBank) {
   const resultats = questionBank.filter((q) =>
     q.keywords.some((mot) => mot.includes(motCle.toLowerCase()))

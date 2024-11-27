@@ -19,7 +19,7 @@ const readline = require("readline").createInterface({
 console.log("Bienvenue dans l'outil de gestion d'examens !");
 console.log("1. Rechercher une question");
 console.log("2. Ajouter une question à l'examen");
-console.log("3. Ajouter toutes les questions à l'examen"); // New option
+console.log("3. Ajouter toutes les questions à l'examen"); 
 console.log("4. Afficher les questions de l'examen");
 console.log("5. Créer un examen au format GIFT");
 console.log("6. Simulate Test Passing");

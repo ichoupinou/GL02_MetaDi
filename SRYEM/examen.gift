@@ -1,15 +1,2 @@
 ::sample_q1:: What is the capital of France? {=Paris ~London ~Berlin ~Madrid}
-::sample_q2:: Which of the following is not a programming language? {~Python ~Java ~HTML =None of these}
-::sample_q3:: Select the primary colors: {~Green ~Orange =Red}
 ::sample_q4:: Who wrote "Hamlet"? {~Charles Dickens ~Jane Austen ~Mark Twain =William Shakespeare}
-::sample_q5:: What does HTML stand for? {=HyperText Markup Language ~HyperText Manipulation Language ~HyperText Model Language ~None of the above}
-::sample_q6:: What is the chemical symbol for water? {=H2O ~O2 ~CO2 ~H2}
-::sample_q7:: How many continents are there? {=7 ~5 ~6 ~8}
-::sample_q8:: What is the largest planet in our solar system? {=Jupiter ~Mars ~Earth ~Saturn}
-::sample_q9:: Which country is known as the Land of the Rising Sun? {=Japan ~China ~Korea ~Thailand}
-::sample_q10:: What is the main ingredient in guacamole? {=Avocado ~Tomato ~Onion ~Lemon}
-::sample_q11:: Who painted the Mona Lisa? {=Leonardo da Vinci ~Pablo Picasso ~Vincent van Gogh ~Claude Monet}
-::sample_q12:: What is the capital of Australia? {=Canberra ~Sydney ~Melbourne ~Brisbane}
-::sample_q13:: What is the square root of 81? {=9 ~8 ~7 ~10}
-::sample_q14:: What is the fastest land animal? {=Cheetah ~Lion ~Tiger ~Gazelle}
-::sample_q15:: Which element has the atomic number 1? {=Hydrogen ~Oxygen ~Helium ~Carbon}
