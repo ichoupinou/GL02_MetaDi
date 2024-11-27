@@ -13,6 +13,7 @@ const { simulerTest } = require("./utils/specs_f/simulerTest");
 const readline = require("readline").createInterface({
   input: process.stdin,
   output: process.stdout,
+  terminal: false, // Désactive l'écho automatique du terminal
 });
 
 // Menu principal
