@@ -31,83 +31,87 @@ const readline = require("readline").createInterface({
   terminal: false, // Désactive l'écho automatique des entrées (utile pour ne pas afficher les caractères saisis).
 });
 
-// Affichage du menu principal.
-// L'utilisateur verra ces options lorsqu'il lancera le programme.
-console.log("Bienvenue dans l'outil de gestion d'examens !");
-console.log("1. Rechercher une question");
-console.log("2. Ajouter une question à l'examen");
-console.log("3. Ajouter toutes les questions à l'examen");
-console.log("4. Afficher les questions de l'examen");
-console.log("5. Créer un examen au format GIFT");
-console.log("6. Simuler un test");
-console.log("7. Quitter");
+// Fonction qui affiche le menu et gère les choix de l'utilisateur
+function afficherMenu() {
+  console.log("--------------------------------------------------");
+  console.log("Bienvenue dans l'outil de gestion d'examens !");
+  console.log("1. Rechercher une question");
+  console.log("2. Ajouter une question à l'examen");
+  console.log("3. Ajouter toutes les questions à l'examen");
+  console.log("4. Afficher les questions de l'examen");
+  console.log("5. Créer un examen au format GIFT");
+  console.log("6. Simuler un test");
+  console.log("7. Quitter");
+  console.log("--------------------------------------------------");
+}
 
 // Fonction principale qui gère la logique du menu.
-function main() {
+function menuPrincipal() {
+  afficherMenu(); // Affiche le menu principal
+
   // Attente de l'entrée utilisateur pour choisir une option du menu.
-  readline.question("Choisissez une option : ", (option) => {
+  readline.question("Choisissez une option (ou tapez 'exit' pour quitter) : ", (option) => {
+    if (option === 'exit') {
+      console.log("Au revoir !");
+      readline.close(); // Ferme l'interface readline pour quitter le programme.
+      return;
+    }
+
     // Gestion des différentes options possibles selon le choix de l'utilisateur.
     switch (option) {
       case "1": // Rechercher une question dans la banque.
-        readline.question("Entrez un mot-clé : ", (motCle) => {
+        console.log("Entrez un mot-clé : ")
+        readline.question("> ", (motCle) => {
           // Appelle la fonction pour rechercher les questions correspondant au mot-clé.
           rechercherQuestions(motCle, banqueQuestions);
-          // Retourne au menu principal après l'exécution.
-          main();
+          menuPrincipal(); // Retourne au menu principal après l'exécution.
         });
         break;
 
       case "2": // Ajouter une question spécifique à l'examen.
-        readline.question("Entrez l'ID de la question à ajouter : ", (id) => {
+        console.log("Ajout d'une question à l'examen : ");
+        readline.question("> ", (id) => {
           // Appelle la fonction pour ajouter une question à partir de son ID.
           ajouterQuestionDansExamen(id, banqueQuestions, questionsExamen);
-          // Retourne au menu principal après l'exécution.
-          main();
+          menuPrincipal(); // Retourne au menu principal après l'exécution.
         });
         break;
 
       case "3": // Ajouter toutes les questions de la banque à l'examen.
         // Appelle la fonction qui transfère toutes les questions de la banque à l'examen.
         ajouterToutesLesQuestions(banqueQuestions, questionsExamen);
-        // Retourne au menu principal.
-        main();
+        menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
       case "4": // Afficher les questions déjà ajoutées à l'examen.
         // Appelle la fonction pour afficher toutes les questions contenues dans l'examen.
         afficherQuestionsExamen(questionsExamen);
-        // Retourne au menu principal.
-        main();
+        menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
       case "5": // Créer un fichier d'examen au format GIFT.
         // Appelle la fonction qui génère un fichier GIFT contenant les questions de l'examen.
         creerTestGIFT(questionsExamen);
-        // Retourne au menu principal.
-        main();
+        menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
       case "6": // Simuler un test avec les questions de l'examen.
         // Appelle la fonction pour lancer une simulation interactive.
         simulerTest(questionsExamen);
-        // Retourne au menu principal.
-        main();
+        menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
       case "7": // Quitter le programme.
-        // Affiche un message d'au revoir avant de fermer le programme.
         console.log("Au revoir !");
-        // Ferme l'interface readline, terminant ainsi le programme.
-        readline.close();
+        readline.close(); // Ferme l'interface readline, terminant ainsi le programme.
         break;
 
       default: // Gestion des cas où l'utilisateur entre une option invalide.
         console.log("Option invalide. Réessayez.");
-        // Retourne au menu principal pour permettre une nouvelle saisie.
-        main();
+        menuPrincipal(); // Retourne au menu principal pour permettre une nouvelle saisie.
     }
   });
 }
 
-// Lancement de la fonction principale qui démarre le programme.
-main();
+// Lancement du programme en appelant la fonction principale pour afficher le menu et traiter les choix.
+menuPrincipal();
