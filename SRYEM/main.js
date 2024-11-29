@@ -63,7 +63,9 @@ function menuPrincipal() {
         console.log("Entrez un mot-clé : ")
         readline.question("> ", (motCle) => {
           // Appelle la fonction pour rechercher les questions correspondant au mot-clé.
+          console.log("\n");
           rechercherQuestions(motCle, banqueQuestions);
+          console.log("\n");
           menuPrincipal(); // Retourne au menu principal après l'exécution.
         });
         break;
@@ -72,33 +74,40 @@ function menuPrincipal() {
         console.log("Ajout d'une question à l'examen : ");
         readline.question("> ", (id) => {
           // Appelle la fonction pour ajouter une question à partir de son ID.
+          console.log("\n");
           ajouterQuestionDansExamen(id, banqueQuestions, questionsExamen);
+          console.log("\n");
           menuPrincipal(); // Retourne au menu principal après l'exécution.
         });
         break;
 
       case "3": // Ajouter toutes les questions de la banque à l'examen.
         // Appelle la fonction qui transfère toutes les questions de la banque à l'examen.
+        console.log("\n");
         ajouterToutesLesQuestions(banqueQuestions, questionsExamen);
+        console.log("\n");
         menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
       case "4": // Afficher les questions déjà ajoutées à l'examen.
         // Appelle la fonction pour afficher toutes les questions contenues dans l'examen.
+        console.log("\n");
         afficherQuestionsExamen(questionsExamen);
+        console.log("\n");
         menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
       case "5": // Créer un fichier d'examen au format GIFT.
         // Appelle la fonction qui génère un fichier GIFT contenant les questions de l'examen.
+        console.log("\n");
         creerTestGIFT(questionsExamen);
+        console.log("\n");
         menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
-      case "6": // Simuler un test avec les questions de l'examen.
-        // Appelle la fonction pour lancer une simulation interactive.
-        simulerTest(questionsExamen);
-        menuPrincipal(); // Retourne au menu principal après l'exécution.
+        case "6":
+        console.log("\n");
+        simulerTest(questionsExamen, menuPrincipal); // Appelle menu() une fois que simulerTest est terminé.
         break;
 
       case "7": // Quitter le programme.

@@ -8,7 +8,7 @@ const rl = readline.createInterface({
 });
 
 // Fonction pour simuler un test interactif basé sur les questions d'un examen.
-function simulerTest(examQuestions) {
+function simulerTest(examQuestions,callback) {
   // Vérifie si l'examen contient des questions.
   if (examQuestions.length === 0) {
     console.log("Aucun test disponible pour la simulation.");
@@ -60,6 +60,7 @@ function simulerTest(examQuestions) {
     } else {
       // Toutes les questions ont été posées : affiche le score total.
       console.log(`\nSimulation terminée. Score total : ${score}/${examQuestions.length}`);
+      if (callback) callback();
       rl.close(); // Ferme l'interface readline après la fin du test.
     }
   };
