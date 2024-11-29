@@ -1,4 +1,4 @@
-const { analyserFichierGIFT } = require("../utils/dataLoader");
+const { analyserFichierGIFT } = require("../utils/preparationDonnes");
 
 const fichiersGIFT = [
   "./data/sample.gift"
