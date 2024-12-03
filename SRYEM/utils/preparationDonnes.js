@@ -52,20 +52,30 @@ function analyserFichierGIFT(cheminFichier) {
       const opt = ligne.split("{");
 
       if (opt.length > 1) {
-        const optionsPart = opt[1].split("}")[0];
-        const options = optionsPart.split("~").map((opt) => opt.trim());
-        
-        // Vérifier si c'est une question Vrai/Faux
-        if (options.length === 1 && (options[0] === "T" || options[0] === "F")) {
+        const optionsPart = opt[1].split("}")[0].trim();
+
+        // Vérifie si c'est une question ouverte
+        if (optionsPart === "") {
           questionActuelle = {
             id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
             text: parts[2].split("{")[0].trim(),
-            options: ["True", "False"], // Options fixes pour ce type de question
-            correct: [options[0] === "T" ? "True" : "False"], // Détermine la bonne réponse
-            type: "Vrai/Faux", // Type spécifique
+            options: [], // Pas d'options pour une question ouverte
+            correct: [], // Pas de réponse correcte prédéfinie
+            type: "Ouverte", // Type spécifique
+          };
+        } else if (optionsPart.startsWith("=")) {
+          // Question ouverte avec une réponse correcte
+          const correctAnswer = optionsPart.replace("=", "").trim();
+          questionActuelle = {
+            id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
+            text: parts[2].split("{")[0].trim(),
+            options: [], // Pas d'options pour une question ouverte
+            correct: [correctAnswer], // Réponse correcte attendue
+            type: "Ouverte",
           };
         } else {
-          // Autre type de question
+          // Autre type de question (QCM, Vrai/Faux)
+          const options = optionsPart.split("~").map((opt) => opt.trim());
           const parsedOptions = [];
           const correctOptions = [];
 
@@ -112,6 +122,7 @@ function analyserFichierGIFT(cheminFichier) {
 
   return questions;
 }
+
 
 
 // Exporte la fonction pour l'utiliser dans d'autres modules
