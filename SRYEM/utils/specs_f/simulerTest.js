@@ -62,7 +62,9 @@ function simulerTest(examQuestions, callback) {
         askQuestion();
       }
     } else {
-      console.log(`\nSimulation terminée. Score total : ${score}/${examQuestions.length}`);
+      console.log("\n===================== FIN DU TEST =====================")
+      console.log(`Simulation terminée. Score total : ${score}/${examQuestions.length}`);
+      console.log("=======================================================\n");
       if (callback) callback();
       rl.close();
     }
