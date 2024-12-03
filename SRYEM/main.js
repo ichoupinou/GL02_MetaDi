@@ -110,6 +110,7 @@ function menuPrincipal() {
       case "6":
         console.log("\n");
         simulerTest(questionsExamen, menuPrincipal); // Appelle menu() une fois que simulerTest est terminé.
+        console.log("\n");
         break;
 
       case "7": // Quitter le programme.

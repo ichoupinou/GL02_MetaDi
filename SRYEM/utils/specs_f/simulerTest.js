@@ -42,12 +42,17 @@ function simulerTest(examQuestions, callback) {
       } else if (question.type === "Ouverte") {
         // Gestion des questions ouvertes
         rl.question("Votre réponse (texte) : ", (answer) => {
-          if (question.correct.includes(answer.trim())) {
+          if (
+            question.correct.some(
+              (correctAnswer) => correctAnswer.toLowerCase() === answer.trim().toLowerCase()
+            )
+          ) {
             console.log("Bonne réponse !");
             score++;
           } else {
             console.log(`Mauvaise réponse. La bonne réponse était : ${question.correct.join(", ")}`);
           }
+
           currentQuestion++;
           askQuestion();
         });

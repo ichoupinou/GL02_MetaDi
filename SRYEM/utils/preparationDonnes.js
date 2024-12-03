@@ -33,8 +33,7 @@ function analyserFichierGIFT(cheminFichier) {
   let questionActuelle = null;
   let compteurQuestions = 0;
   const prefixeFichier = cheminFichier
-    .split("/")
-    .pop()
+    .split("/").pop()
     .replace(".gift", "")
     .replace(/[^a-zA-Z0-9]/g, "_");
 
@@ -52,29 +51,29 @@ function analyserFichierGIFT(cheminFichier) {
       const opt = ligne.split("{");
 
       if (opt.length > 1) {
-        const optionsPart = opt[1].split("}")[0].trim();
+        const optionsPart = opt[1].split("}")[0].trim(); // Récupère la partie des options de la question en divisant par les accolades
+        console.log(optionsPart);
 
-        // Vérifie si c'est une question ouverte
-        if (optionsPart === "") {
+        // Si la question n'a pas d'option (question ouverte)
+        if (optionsPart.includes(">")) {
           questionActuelle = {
             id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
             text: parts[2].split("{")[0].trim(),
-            options: [], // Pas d'options pour une question ouverte
-            correct: [], // Pas de réponse correcte prédéfinie
+            options: [], // Option Ouverte
+            correct: [optionsPart.split(">")[1].trim()],
             type: "Ouverte", // Type spécifique
           };
-        } else if (optionsPart.startsWith("=")) {
-          // Question ouverte avec une réponse correcte
-          const correctAnswer = optionsPart.replace("=", "").trim();
+        } else if (optionsPart === "False" || optionsPart === "True") {
+          // Vérification spécifique pour les questions Vrai/Faux
           questionActuelle = {
             id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
             text: parts[2].split("{")[0].trim(),
-            options: [], // Pas d'options pour une question ouverte
-            correct: [correctAnswer], // Réponse correcte attendue
-            type: "Ouverte",
+            options: ["True", "False"], // Options Vrai/Faux
+            correct: [optionsPart], // Réponse correcte 
+            type: "Vrai/Faux", // Type spécifique
           };
         } else {
-          // Autre type de question (QCM, Vrai/Faux)
+          // Si la question contient des options, il s'agit d'une question QCM
           const options = optionsPart.split("~").map((opt) => opt.trim());
           const parsedOptions = [];
           const correctOptions = [];
@@ -85,13 +84,13 @@ function analyserFichierGIFT(cheminFichier) {
               parsedOptions.push(correctOption);
               correctOptions.push(correctOption);
             } else if (opt.includes("=")) {
-              const parts = opt.split("=");
-              parsedOptions.push(parts[0].trim());
+              const parts = opt.split("="); // Divise l'option en deux parties (si elle contient "=")
+              parsedOptions.push(parts[0].trim()); // Ajoute la première partie de l'option
               const correctOption = parts[1].trim();
-              parsedOptions.push(correctOption);
-              correctOptions.push(correctOption);
+              parsedOptions.push(correctOption); // Ajoute la partie correcte
+              correctOptions.push(correctOption); // Ajoute la partie correcte à la liste des bonnes réponses
             } else {
-              parsedOptions.push(opt);
+              parsedOptions.push(opt); // Si l'option n'est pas correcte, on l'ajoute simplement
             }
           });
 
@@ -122,8 +121,6 @@ function analyserFichierGIFT(cheminFichier) {
 
   return questions;
 }
-
-
 
 // Exporte la fonction pour l'utiliser dans d'autres modules
 module.exports = { analyserFichierGIFT };

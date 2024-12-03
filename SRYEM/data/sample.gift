@@ -13,5 +13,5 @@
 ::Q13:: What is the square root of 81? {=9 ~8 ~7 ~10}
 ::Q14:: What is the fastest land animal? {=Cheetah ~Lion ~Tiger ~Gazelle}
 ::Q15:: Which element has the atomic number 1? {=Hydrogen ~Oxygen ~Helium ~Carbon}
-::Q16:: The sky is blue. {T}
-::Q17:: What is the capital of France? {=Paris}
+::Q16:: True or False: The Earth is flat? {False}
+::Q17:: What is the capital of France? {>Paris}
