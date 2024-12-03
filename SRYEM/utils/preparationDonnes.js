@@ -26,97 +26,93 @@ function genererMotsCles(question) {
 
 // Fonction pour analyser un fichier GIFT et en extraire les questions
 function analyserFichierGIFT(cheminFichier) {
-  // Lit le contenu du fichier GIFT
   const contenu = fs.readFileSync(cheminFichier, "utf-8");
-  const questions = []; // Liste des questions extraites du fichier
-  const lignes = contenu.split("\n"); // Sépare le contenu du fichier en lignes
+  const questions = [];
+  const lignes = contenu.split("\n");
 
-  let questionActuelle = null; // Variable pour stocker la question en cours de traitement
-  let compteurQuestions = 0; // Compteur pour l'index des questions
-  // Utilise le nom du fichier (sans extension) comme préfixe pour les identifiants des questions
+  let questionActuelle = null;
+  let compteurQuestions = 0;
   const prefixeFichier = cheminFichier
     .split("/")
     .pop()
     .replace(".gift", "")
     .replace(/[^a-zA-Z0-9]/g, "_");
 
-  // Parcours chaque ligne du fichier GIFT
   lignes.forEach((ligne) => {
-    // Ignore les lignes vides
     if (!ligne.trim()) return;
 
-    // Vérifie si la ligne commence par "::", indiquant le début d'une question
     if (ligne.startsWith("::")) {
-      // Si une question est en cours de traitement, on la termine et l'ajoute à la liste des questions
       if (questionActuelle) {
-        questionActuelle.keywords = genererMotsCles(questionActuelle); // Génère les mots-clés pour la question
-        questions.push(questionActuelle); // Ajoute la question à la liste
+        questionActuelle.keywords = genererMotsCles(questionActuelle);
+        questions.push(questionActuelle);
       }
 
-      // Incrémente le compteur de questions
       compteurQuestions++;
-      const parts = ligne.split("::"); // Divise la ligne en parties, la question commence après "::"
-      const opt = ligne.split("{"); // Vérifie s'il y a des options
+      const parts = ligne.split("::");
+      const opt = ligne.split("{");
+
       if (opt.length > 1) {
-        // Si des options existent, on extrait les options de la question
-        const optionsPart = opt[1].split("}")[0]; // Récupère les options entre les accolades
-        const options = optionsPart
-          .split("~") // Divise les options par "~"
-          .map((opt) => opt.trim()) // Supprime les espaces avant et après chaque option
-          .filter((opt) => opt !== ""); // Supprime les chaînes vides
+        const optionsPart = opt[1].split("}")[0];
+        const options = optionsPart.split("~").map((opt) => opt.trim());
+        
+        // Vérifier si c'est une question Vrai/Faux
+        if (options.length === 1 && (options[0] === "T" || options[0] === "F")) {
+          questionActuelle = {
+            id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
+            text: parts[2].split("{")[0].trim(),
+            options: ["True", "False"], // Options fixes pour ce type de question
+            correct: [options[0] === "T" ? "True" : "False"], // Détermine la bonne réponse
+            type: "Vrai/Faux", // Type spécifique
+          };
+        } else {
+          // Autre type de question
+          const parsedOptions = [];
+          const correctOptions = [];
 
-        const parsedOptions = []; // Liste des options extraites
-        const correctOptions = []; // Liste des réponses correctes
+          options.forEach((opt) => {
+            if (opt.startsWith("=")) {
+              const correctOption = opt.replace("=", "").trim();
+              parsedOptions.push(correctOption);
+              correctOptions.push(correctOption);
+            } else if (opt.includes("=")) {
+              const parts = opt.split("=");
+              parsedOptions.push(parts[0].trim());
+              const correctOption = parts[1].trim();
+              parsedOptions.push(correctOption);
+              correctOptions.push(correctOption);
+            } else {
+              parsedOptions.push(opt);
+            }
+          });
 
-        // Traite chaque option pour identifier les réponses correctes (indiquées par "=")
-        options.forEach((opt) => {
-          if (opt.startsWith("=")) {
-            const correctOption = opt.replace("=", "").trim(); // Enlève le caractère "=" et ajoute l'option correcte
-            parsedOptions.push(correctOption);
-            correctOptions.push(correctOption); // Ajoute cette option à la liste des bonnes réponses
-          } else if (opt.includes("=")) {
-            const parts = opt.split("="); // Divise l'option en deux parties (si elle contient "=")
-            parsedOptions.push(parts[0].trim()); // Ajoute la première partie de l'option
-            const correctOption = parts[1].trim();
-            parsedOptions.push(correctOption); // Ajoute la partie correcte
-            correctOptions.push(correctOption); // Ajoute la partie correcte à la liste des bonnes réponses
-          } else {
-            parsedOptions.push(opt); // Si l'option n'est pas correcte, on l'ajoute simplement
-          }
-        });
-
-        // Crée un objet représentant la question avec son ID, son texte, ses options et ses bonnes réponses
-        questionActuelle = {
-          id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(), // Génère un ID unique pour la question
-          text: parts[2].split("{")[0].trim(), // Extrait le texte de la question (avant les options)
-          options: parsedOptions, // Liste des options extraites
-          correct: correctOptions, // Liste des bonnes réponses
-          type: null, // Le type de la question sera déterminé après
-        };
+          questionActuelle = {
+            id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
+            text: parts[2].split("{")[0].trim(),
+            options: parsedOptions,
+            correct: correctOptions,
+            type: correctOptions.length > 0 ? "QCM" : "Unknown",
+          };
+        }
       } else {
-        // Si aucune option n'existe, crée une question sans options
         questionActuelle = {
           id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
           text: parts[2].split("{")[0].trim(),
           options: [],
           correct: [],
-          type: null,
+          type: "Unknown",
         };
       }
-
-      // Si des réponses correctes existent, le type de la question est "QCM", sinon il est "Unknown"
-      questionActuelle.type = questionActuelle.correct.length > 0 ? "QCM" : "Unknown";
     }
   });
 
-  // Ajoute la dernière question (si elle existe)
   if (questionActuelle) {
-    questionActuelle.keywords = genererMotsCles(questionActuelle); // Génère les mots-clés pour la question
-    questions.push(questionActuelle); // Ajoute la question à la liste
+    questionActuelle.keywords = genererMotsCles(questionActuelle);
+    questions.push(questionActuelle);
   }
 
-  return questions; // Retourne la liste des questions extraites
+  return questions;
 }
+
 
 // Exporte la fonction pour l'utiliser dans d'autres modules
 module.exports = { analyserFichierGIFT };

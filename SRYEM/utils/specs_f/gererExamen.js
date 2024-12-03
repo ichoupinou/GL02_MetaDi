@@ -56,10 +56,29 @@ function afficherQuestionsExamen(examQuestions) {
   );
 }
 
+function afficherToutesLesQuestions(questionBank) {
+  // Vérifie si la banque de questions est vide.
+  if (questionBank.length === 0) {
+    // Si aucune question n'est présente, affiche un message et termine l'exécution.
+    console.log("La banque de questions est vide.");
+    return;
+  }
+
+  // Affiche un titre avant de lister les questions.
+  console.log("Questions disponibles :");
+
+  // Parcourt chaque question de la banque et l'affiche avec son index.
+  // Inclut le type de question et son texte.
+  questionBank.forEach((q, index) =>
+    console.log(`${index + 1}. [${q.type}] ${q.text}`)
+  );
+}
+
 // Exportation des fonctions pour qu'elles soient accessibles dans d'autres fichiers.
 // Cela permet de les réutiliser dans d'autres modules ou parties de l'application.
 module.exports = {
   ajouterQuestionDansExamen,
   ajouterToutesLesQuestions,
   afficherQuestionsExamen,
+  afficherToutesLesQuestions,
 };

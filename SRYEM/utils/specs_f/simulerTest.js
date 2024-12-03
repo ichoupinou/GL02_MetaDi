@@ -27,7 +27,7 @@ function simulerTest(examQuestions,callback) {
       const question = examQuestions[currentQuestion];
 
       // Affiche le texte de la question.
-      console.log(`\nQuestion ${currentQuestion + 1}: ${question.text}`);
+      console.log(`\nQuestion ${currentQuestion + 1}: ${question.text} \n`);
 
       // Affiche les options disponibles, si elles existent.
       if (question.options && question.options.length > 0) {

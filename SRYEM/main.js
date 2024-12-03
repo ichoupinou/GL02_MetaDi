@@ -3,6 +3,8 @@
 // `questionsExamen` : Contient les questions ajoutées à l'examen en cours.
 const { banqueQuestions, questionsExamen } = require("./data/banqueQuestions");
 
+console.log(banqueQuestions);
+
 // Importation de la fonction pour rechercher des questions dans la banque.
 const {
   rechercherQuestions,
@@ -14,6 +16,7 @@ const {
   ajouterQuestionDansExamen,
   ajouterToutesLesQuestions,
   afficherQuestionsExamen,
+  afficherToutesLesQuestions,
 } = require("./utils/specs_f/gererExamen");
 
 // Importation de la fonction pour créer un fichier au format GIFT.
@@ -102,18 +105,24 @@ function menuPrincipal() {
         console.log("\n");
         creerTestGIFT(questionsExamen);
         console.log("\n");
-        menuPrincipal(); // Retourne au menu principal après l'exécution.
         break;
 
-        case "6":
+      case "6":
         console.log("\n");
         simulerTest(questionsExamen, menuPrincipal); // Appelle menu() une fois que simulerTest est terminé.
         break;
 
       case "7": // Quitter le programme.
+        console.log("\n");
         console.log("Au revoir !");
         readline.close(); // Ferme l'interface readline, terminant ainsi le programme.
         break;
+
+      case "afficherToutesLesQuestions":
+        afficherToutesLesQuestions(banqueQuestions);
+        menuPrincipal();
+        break;
+        
 
       default: // Gestion des cas où l'utilisateur entre une option invalide.
         console.log("Option invalide. Réessayez.");
