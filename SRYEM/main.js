@@ -2,33 +2,6 @@
 // `banqueQuestions` : Contient la banque de toutes les questions disponibles.
 // `questionsExamen` : Contient les questions ajoutées à l'examen en cours.
 const { banqueQuestions, questionsExamen } = require("./data/banqueQuestions");
-const express = require('express');
-const path = require('path');
-
-const app = express();
-
-// Servir les fichiers statiques depuis le dossier 'public'
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Route pour la page d'accueil
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Route pour les questions de l'examen
-const PORT = 3000;
-// Lancer le serveur sur le port 3000
-app.listen(PORT, () => {
-    console.log(`Serveur démarré sur http://localhost:${PORT}`);
-});
-
-app.get('/profil-examen', (req, res) => {
-  const profilExamen = visualiserQuestions(questionsExamen);
-  res.json(profilExamen); // Envoie des données JSON au client.
-});
-
-
-console.log(banqueQuestions);
 
 // Importation de la fonction pour rechercher des questions dans la banque.
 const {
@@ -71,8 +44,7 @@ function afficherMenu() {
   console.log("4. Afficher les questions de l'examen");
   console.log("5. Créer un examen au format GIFT");
   console.log("6. Simuler un test");   
-  console.log("7. visualiser le profil d’un examen");
-  console.log("8. Quitter");
+  console.log("7. Quitter");
   console.log("--------------------------------------------------");
 }
 
@@ -141,20 +113,7 @@ function menuPrincipal() {
         console.log("\n");
         break;
 
-        case "7":
-          console.log("\n");
-          console.log("Visualisation du profil d'un examen : ");
-          const profilExamen = visualiserQuestions(questionsExamen); // Récupère les données.
-          console.log(profilExamen); // Affiche les données dans le terminal.
-        
-          // Si vous voulez traiter les données ou les passer à une autre fonction.
-          console.log("Génération de l'histogramme...");
-          
-          menuPrincipal(); // Retour au menu après.
-          break;
-        
-
-      case "8": // Quitter le programme.
+      case "7": // Quitter le programme.
         console.log("\n");
         console.log("Au revoir !");
         readline.close(); // Ferme l'interface readline, terminant ainsi le programme.
