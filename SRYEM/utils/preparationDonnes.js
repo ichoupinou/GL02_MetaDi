@@ -96,7 +96,7 @@ function analyserFichierGIFT(cheminFichier) {
 
           questionActuelle = {
             id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
-            text: parts[2].split("{")[0].trim(),
+            text: parts[2].replace(/[=~]/g, ''), // Extrait le texte de la question en supprimant les '=' et '~'
             options: parsedOptions,
             correct: correctOptions,
             type: correctOptions.length > 0 ? "QCM" : "Unknown",
@@ -105,7 +105,7 @@ function analyserFichierGIFT(cheminFichier) {
       } else {
         questionActuelle = {
           id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
-          text: parts[2].split("{")[0].trim(),
+          text: parts[2].replace(/[=~]/g, ''), // Extrait le texte de la question en supprimant les '=' et '~'
           options: [],
           correct: [],
           type: "Unknown",
