@@ -43,8 +43,9 @@ function afficherMenu() {
   console.log("3. Ajouter toutes les questions à l'examen");
   console.log("4. Afficher les questions de l'examen");
   console.log("5. Créer un examen au format GIFT");
-  console.log("6. Simuler un test");
-  console.log("7. Quitter");
+  console.log("6. Simuler un test");   
+  console.log("7. visualiser le profil d’un examen");
+  console.log("8. Quitter");
   console.log("--------------------------------------------------");
 }
 
@@ -113,7 +114,7 @@ function menuPrincipal() {
         console.log("\n");
         break;
 
-      case "7": // Quitter le programme.
+      case "8": // Quitter le programme.
         console.log("\n");
         console.log("Au revoir !");
         readline.close(); // Ferme l'interface readline, terminant ainsi le programme.

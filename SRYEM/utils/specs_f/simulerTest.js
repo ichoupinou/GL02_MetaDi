@@ -28,6 +28,7 @@ function simulerTest(examQuestions, callback) {
         question.options.forEach((opt, i) => {
           console.log(`${i + 1}. ${opt}`);
         });
+        console.log("\n");
         rl.question("Votre réponse (numéro) : ", (answer) => {
           const selectedOption = question.options[Number(answer) - 1];
           if (selectedOption && question.correct.includes(selectedOption)) {

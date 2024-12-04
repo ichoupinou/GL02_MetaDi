@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plotly Histogram</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="myDiv" style="width: 600px; height: 400px;"></div>
+    <script>
+        const data = [{
+            x: [1, 4, 3, 4, 5],
+            type: 'bar'
+        }];
+        Plotly.newPlot('myDiv', data);
+    </script>
+</body>
+</html>
