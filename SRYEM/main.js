@@ -26,6 +26,8 @@ const { creerTestGIFT } = require("./utils/specs_f/creerTestGIFT");
 // Importation de la fonction pour simuler un test basé sur les questions d'examen.
 const { simulerTest } = require("./utils/specs_f/simulerTest");
 
+const { visualiserQuestions } = require("./utils/specs_f/visualiserQuestions");
+
 // Configuration de l'interface de ligne de commande pour interagir avec l'utilisateur.
 // `readline` permet de lire les entrées utilisateur depuis le terminal.
 const readline = require("readline").createInterface({
@@ -113,6 +115,12 @@ function menuPrincipal() {
         simulerTest(questionsExamen, menuPrincipal); // Appelle menu() une fois que simulerTest est terminé.
         console.log("\n");
         break;
+
+      case "7":
+        console.log("\n");
+        console.log("Visualisation du profil d'un examen : ");
+        console.log(visualiserQuestions(questionsExamen));
+        console.log("\n");
 
       case "8": // Quitter le programme.
         console.log("\n");
