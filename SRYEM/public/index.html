@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histogramme des Types de Questions</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Histogramme des Types de Questions</h1>
+    <div id="chart" style="width: 600px; height: 400px;"></div>
+    <script>
+        fetch('/profil-examen')
+          .then(response => response.json())
+          .then(data => {
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+      
+            const trace = {
+              x: labels,
+              y: values,
+              type: 'bar'
+            };
+      
+            const layout = {
+              title: 'Profil de l\'examen',
+              xaxis: { title: 'Types de Questions' },
+              yaxis: { title: 'Nombre de Questions' }
+            };
+      
+            Plotly.newPlot('chart', [trace], layout);
+          })
+          .catch(err => console.error('Erreur lors du chargement du profil:', err));
+      </script>
+      
+</body>
+</html>
