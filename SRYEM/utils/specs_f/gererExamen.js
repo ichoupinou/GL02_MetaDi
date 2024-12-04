@@ -6,19 +6,20 @@ function ajouterQuestionDansExamen(id, questionBank, examQuestions) {
   // Si la question n'est pas trouvée, affiche un message d'erreur et arrête l'exécution de la fonction.
   if (!question) {
     console.log("Question introuvable !");
-    return;
+    return { message: "Question introuvable !", success: false };
   }
 
   // Vérifie si la question est déjà présente dans l'examen.
   // Si oui, affiche un message d'information et arrête l'exécution.
   if (examQuestions.some((q) => q.id === id)) {
     console.log("Cette question est déjà dans l'examen !");
-    return;
+    return { message: "Cette question est déjà dans l'examen !", success: false };
   }
 
   // Ajoute la question à la liste des questions de l'examen.
   examQuestions.push(question);
   console.log("Question ajoutée à l'examen avec succès.");
+  return { message: "Question ajoutée à l'examen avec succès  !", success: true };
 }
 
 // Fonction pour ajouter toutes les questions de la banque qui ne sont pas déjà dans l'examen.

@@ -18,6 +18,8 @@ function rechercherQuestions(motCle, questionBank) {
       console.log(`${index + 1}. [${q.type}] ${q.text}`)
     );
   }
+
+  return resultats;
 }
 
 // Exportation de la fonction pour qu'elle puisse être utilisée dans d'autres modules.
