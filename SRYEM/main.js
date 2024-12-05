@@ -3,6 +3,8 @@
 // `questionsExamen` : Contient les questions ajoutées à l'examen en cours.
 const { banqueQuestions, questionsExamen } = require("./data/banqueQuestions");
 
+const { exec } = require('child_process');
+
 // Importation de la fonction pour rechercher des questions dans la banque.
 const {
   rechercherQuestions,
@@ -24,7 +26,7 @@ const { creerTestGIFT } = require("./utils/specs_f/creerTestGIFT");
 // Importation de la fonction pour simuler un test basé sur les questions d'examen.
 const { simulerTest } = require("./utils/specs_f/simulerTest");
 
-const { visualiserQuestions } = require("./utils/specs_f/visualiserQuestions");
+const { visualiserQuestions, genererHistogramme} = require("./utils/specs_f/visualiserQuestions");
 
 // Configuration de l'interface de ligne de commande pour interagir avec l'utilisateur.
 // `readline` permet de lire les entrées utilisateur depuis le terminal.
@@ -43,8 +45,9 @@ function afficherMenu() {
   console.log("3. Ajouter toutes les questions à l'examen");
   console.log("4. Afficher les questions de l'examen");
   console.log("5. Créer un examen au format GIFT");
-  console.log("6. Simuler un test");   
-  console.log("7. Quitter");
+  console.log("6. Simuler un test");
+  console.log("7. Visualiser le profil de l'examen");   
+  console.log("8. Quitter");
   console.log("--------------------------------------------------");
 }
 
@@ -113,7 +116,16 @@ function menuPrincipal() {
         console.log("\n");
         break;
 
-      case "7": // Quitter le programme.
+      case "7":
+        console.log("\n");
+        let data = visualiserQuestions(banqueQuestions);
+        // date au format dd-mm-yyyy
+        let date = new Date().toLocaleDateString().split("/").reverse().join("-"); 
+        genererHistogramme(data, "histogtamme"+date+".png");
+        console.log("\n");
+        menuPrincipal();
+
+      case "8": // Quitter le programme.
         console.log("\n");
         console.log("Au revoir !");
         readline.close(); // Ferme l'interface readline, terminant ainsi le programme.

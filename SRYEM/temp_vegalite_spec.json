@@ -1,0 +1,41 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Histogramme des types de questions",
+  "data": {
+    "values": [
+      {
+        "Type": "QCM",
+        "Count": 15
+      },
+      {
+        "Type": "Vrai/Faux",
+        "Count": 1
+      },
+      {
+        "Type": "Ouverte",
+        "Count": 1
+      }
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "Type",
+      "type": "nominal",
+      "title": "Types de Questions",
+      "axis": {
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "Count",
+      "type": "quantitative",
+      "title": "Nombre de Questions"
+    },
+    "color": {
+      "field": "Type",
+      "type": "nominal",
+      "legend": null
+    }
+  }
+}

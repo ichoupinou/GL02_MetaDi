@@ -1,6 +1,12 @@
 {
   "dependencies": {
+    "canvas": "^2.11.2",
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
-    "express": "^4.21.1"
+    "exec": "^0.2.1",
+    "express": "^4.21.1",
+    "vega": "^5.30.0",
+    "vega-embed": "^6.29.0",
+    "vega-lite": "^5.22.0"
   }
 }
