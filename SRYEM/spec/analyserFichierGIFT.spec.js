@@ -57,6 +57,6 @@ describe("Fonction analyserFichierGIFT", () => {
         // Vérifie les mots-clés de la première question
         expect(questions[0].keywords).toEqual(expectedKeywords);
 
-        console.log("Test de génération des mots-clés : Succès !");
+        console.log("Test de génération des mots-clés : Succès !\n\n");
     });
 });

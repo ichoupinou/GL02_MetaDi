@@ -29,13 +29,15 @@ describe("Fonction creerTestGIFT", () => {
 
         const expectedContent = `::q1:: Quelle est la capitale de la France ? {=Paris ~Lyon ~Marseille ~Nice}
 ::q2:: Quelle est la couleur du ciel ? {=Bleu ~Vert ~Rouge}`;
-
         const expectedPath = "./examen.gift";
 
         // Vérifie que fs.writeFileSync a été appelé avec les bons arguments
         expect(fs.writeFileSync).toHaveBeenCalledWith(expectedPath, expectedContent);
         // Vérifie que le message de confirmation est affiché
         expect(console.log).toHaveBeenCalledWith(`Examen généré avec succès : ${expectedPath}`);
+
+        // Si on arrive ici, toutes les assertions sont passées
+        console.log("Le test pour la génération du fichier GIFT s'est bien déroulé !");
     });
 
     it("devrait afficher un message d'erreur si l'examen est vide", () => {
@@ -47,5 +49,8 @@ describe("Fonction creerTestGIFT", () => {
         expect(fs.writeFileSync).not.toHaveBeenCalled();
         // Vérifie que le message d'erreur est affiché
         expect(console.log).toHaveBeenCalledWith("L'examen ne contient aucune question.");
+
+        // Si on arrive ici, le test est passé
+        console.log("Le test pour l'examen vide s'est bien déroulé !\n\n");
     });
 });
