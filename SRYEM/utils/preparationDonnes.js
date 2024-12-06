@@ -3,25 +3,46 @@ const fs = require("fs");
 
 // Fonction pour générer des mots-clés à partir d'une question
 function genererMotsCles(question) {
-  const motsCles = []; // Liste pour stocker les mots-clés générés
-  const stopWords = ["the", "and", "for", "with", "that", "this", "a", "of", "in", "to", "is"]; // Liste de mots à ignorer
+  const motsCles = [];
+  const stopWords = [
+    "the",
+    "and",
+    "for",
+    "with",
+    "that",
+    "this",
+    "a",
+    "of",
+    "in",
+    "to",
+    "is",
+  ];
 
-  // Ajoute le type de la question (s'il existe) comme mot-clé
-  if (question.type) motsCles.push(question.type);
-
-  // Divise le texte de la question en mots, ignore les mots de moins de 3 caractères et ceux présents dans la liste de mots à ignorer
+  // Divise et nettoie le texte de la question
   const motsTexte = question.text
-    .split(/\s+/) // Sépare la question en mots
-    .filter((mot) => mot.length > 3 && !stopWords.includes(mot.toLowerCase())); // Filtrage par longueur et mots à ignorer
+    .replace(/[^\w\s]/g, "") // Supprime les caractères spéciaux
+    .toLowerCase() // Convertit en minuscules
+    .split(/\s+/) // Divise en mots
+    .filter((mot) => mot.length > 3 && !stopWords.includes(mot)); // Filtre les mots courts et les stopwords
 
-  // Ajoute les mots extraits du texte de la question à la liste des mots-clés
   motsCles.push(...motsTexte);
 
-  // Si la question contient des options, on les ajoute également comme mots-clés
-  if (question.options) motsCles.push(...question.options);
+  // Ajoute les options comme mots-clés
+  if (question.options) {
+    motsCles.push(
+      ...question.options.map(
+        (opt) => opt.replace(/[^\w\s]/g, "").toLowerCase() // Nettoie et convertit en minuscules
+      )
+    );
+  }
 
-  // Retourne un tableau de mots-clés uniques, tous en minuscules et sans le caractère "="
-  return [...new Set(motsCles.map((mot) => mot.toLowerCase().replace("=", "")))];
+  // Retourne une liste unique de mots-clés
+  return [...new Set(motsCles)];
+}
+
+// Nettoie et extrait le texte d'une question en supprimant les balises et les caractères superflus
+function nettoyerTexteQuestion(texte) {
+  return texte.replace(/[{}=~]/g, "").trim();
 }
 
 // Fonction pour analyser un fichier GIFT et en extraire les questions
@@ -33,7 +54,8 @@ function analyserFichierGIFT(cheminFichier) {
   let questionActuelle = null;
   let compteurQuestions = 0;
   const prefixeFichier = cheminFichier
-    .split("/").pop()
+    .split("/")
+    .pop()
     .replace(".gift", "")
     .replace(/[^a-zA-Z0-9]/g, "_");
 
@@ -51,30 +73,68 @@ function analyserFichierGIFT(cheminFichier) {
       const opt = ligne.split("{");
 
       if (opt.length > 1) {
-        const optionsPart = opt[1].split("}")[0].trim(); // Récupère la partie des options de la question en divisant par les accolades
-        console.log(optionsPart);
+        const optionsPart = opt[1].split("}")[0].trim(); // Récupère les options
+        const texteQuestion = nettoyerTexteQuestion(
+          parts[2].split("{")[0].trim()
+        );
 
-        // Si la question n'a pas d'option (question ouverte)
+        // Traitement des types de questions
         if (optionsPart.includes(">")) {
           questionActuelle = {
             id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
-            text: parts[2].split("{")[0].trim(),
-            options: [], // Option Ouverte
+            text: texteQuestion,
+            options: [],
             correct: [optionsPart.split(">")[1].trim()],
-            type: "Ouverte", // Type spécifique
+            type: "Ouverte",
           };
         } else if (optionsPart === "False" || optionsPart === "True") {
-          // Vérification spécifique pour les questions Vrai/Faux
           questionActuelle = {
             id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
-            text: parts[2].split("{")[0].trim(),
-            options: ["True", "False"], // Options Vrai/Faux
-            correct: [optionsPart], // Réponse correcte 
-            type: "Vrai/Faux", // Type spécifique
+            text: texteQuestion,
+            options: ["True", "False"],
+            correct: [optionsPart],
+            type: "Vrai/Faux",
           };
         } else {
-          // Si la question contient des options, il s'agit d'une question QCM
-          const options = optionsPart.split("~").map((opt) => opt.trim());
+          let options = [];
+          let option = "";
+
+          // Parcours de la chaîne optionsPart
+          for (let i = 0; i < optionsPart.length; i++) {
+            const char = optionsPart[i];
+
+            if (char !== "=" && char !== "~") {
+              option += char; // Construire l'option caractère par caractère
+            } else {
+              // Ajouter l'option actuelle si elle n'est pas vide
+              option = option.trim();
+              if (option.length > 0) {
+                options.push(option);
+              }
+
+              // Identifier les options correctes ou incorrectes
+              if (char === "=") {
+                option = "="; // Marquer l'option comme correcte
+              } else {
+                option = ""; // Préparer pour une nouvelle option incorrecte
+              }
+            }
+          }
+
+          // Ajouter la dernière option après la boucle
+          option = option.trim();
+          if (option.length > 0) {
+            options.push(option);
+          }
+
+          console.log(options);
+
+          // // Diviser les options par `~` et gérer `=` pour identifier les bonnes réponses
+          // const options = optionsPart
+          //   .split(/~|=/) // Divise par `~` ou `=` pour couvrir les deux cas
+          //   .map((opt) => opt.trim()) // Nettoie les espaces autour de chaque option
+          //   .filter((opt) => opt.length > 0); // Évite les options vides
+
           const parsedOptions = [];
           const correctOptions = [];
 
@@ -83,29 +143,23 @@ function analyserFichierGIFT(cheminFichier) {
               const correctOption = opt.replace("=", "").trim();
               parsedOptions.push(correctOption);
               correctOptions.push(correctOption);
-            } else if (opt.includes("=")) {
-              const parts = opt.split("="); // Divise l'option en deux parties (si elle contient "=")
-              parsedOptions.push(parts[0].trim()); // Ajoute la première partie de l'option
-              const correctOption = parts[1].trim();
-              parsedOptions.push(correctOption); // Ajoute la partie correcte
-              correctOptions.push(correctOption); // Ajoute la partie correcte à la liste des bonnes réponses
             } else {
-              parsedOptions.push(opt); // Si l'option n'est pas correcte, on l'ajoute simplement
+              parsedOptions.push(opt);
             }
           });
 
           questionActuelle = {
             id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
-            text: parts[2].replace(/[=~]/g, ''), // Extrait le texte de la question en supprimant les '=' et '~'
+            text: texteQuestion,
             options: parsedOptions,
             correct: correctOptions,
-            type: correctOptions.length > 0 ? "QCM" : "Unknown",
+            type: "QCM",
           };
         }
       } else {
         questionActuelle = {
           id: `${prefixeFichier}_Q${compteurQuestions}`.toLowerCase(),
-          text: parts[2].replace(/[=~]/g, ''), // Extrait le texte de la question en supprimant les '=' et '~'
+          text: nettoyerTexteQuestion(parts[2].trim()),
           options: [],
           correct: [],
           type: "Unknown",
