@@ -3,7 +3,6 @@
 // `questionsExamen` : Contient les questions ajoutées à l'examen en cours.
 const { banqueQuestions, questionsExamen } = require("./data/banqueQuestions");
 
-console.log(banqueQuestions);
 
 const { exec } = require('child_process');
 

@@ -127,8 +127,6 @@ function analyserFichierGIFT(cheminFichier) {
             options.push(option);
           }
 
-          console.log(options);
-
           // // Diviser les options par `~` et gérer `=` pour identifier les bonnes réponses
           // const options = optionsPart
           //   .split(/~|=/) // Divise par `~` ou `=` pour couvrir les deux cas
