@@ -14,9 +14,20 @@ function rechercherQuestions(motCle, questionBank) {
     console.log("Résultats de recherche :");
 
     // Parcourt chaque question trouvée et l'affiche avec son index (numérotation humaine).
-    resultats.forEach((q, index) =>
+    resultats.forEach((q, index) => {
       console.log(`${index + 1}. [${q.type}] ${q.text} ; id : ${q.id}`)
-    );
+
+      // NOUVEAU: Ajout de l'affichage des réponses
+      console.log("   Réponses possibles :");
+      if (q.options) {
+        q.options.forEach((option, optIndex) => {
+          const isCorrect = q.correct.includes(option) ? "✓" : "✗";
+          console.log(`   ${String.fromCharCode(97 + optIndex)}. ${option} ${isCorrect}`);
+        });
+      }
+      // NOUVEAU: Ajout d'une ligne vide pour la lisibilité
+      console.log("");
+    });
   }
 
   return resultats;
