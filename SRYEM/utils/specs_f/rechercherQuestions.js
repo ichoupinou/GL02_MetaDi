@@ -15,7 +15,7 @@ function rechercherQuestions(motCle, questionBank) {
 
     // Parcourt chaque question trouvée et l'affiche avec son index (numérotation humaine).
     resultats.forEach((q, index) =>
-      console.log(`${index + 1}. [${q.type}] ${q.text}`)
+      console.log(`${index + 1}. [${q.type}] ${q.text} ; id : ${q.id}`)
     );
   }
 
