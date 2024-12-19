@@ -5,9 +5,19 @@ const fs = require("fs");
 // Le format GIFT est utilisé pour importer des questions dans des systèmes d'apprentissage comme Moodle.
 function creerTestGIFT(examQuestions) {
   // Vérifie si l'examen contient des questions.
+  // JALON3 TODO
+  // Je pense que c'est ici qu'il faut vérifier la longueur de l'exam
   if (examQuestions.length === 0) {
     // Si aucune question n'est présente, affiche un message d'erreur et termine l'exécution de la fonction.
     console.log("L'examen ne contient aucune question.");
+    return;
+  }else if (examQuestions.length > 20) {
+    // S'il y a trop de questions dans l'examen en cours de création, affiche un message d'erreur et termine l'exécution de la fonction.
+    console.log("L'examen contient trop de questions pour générer un test (il en faut entre 15 et 20).");
+    return;
+  }else if (examQuestions.length < 15) {
+    // Si aucune question n'est présente, affiche un message d'erreur et termine l'exécution de la fonction.
+    console.log("L'examen ne contient pas assez de questions pour générer un test (il en faut entre 15 et 20).");
     return;
   }
 
