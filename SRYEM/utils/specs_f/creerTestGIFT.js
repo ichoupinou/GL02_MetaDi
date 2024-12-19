@@ -29,12 +29,14 @@ function creerTestGIFT(examQuestions) {
         // ::id:: est un identifiant unique pour la question.
         // Le texte de la question est suivi de ses options entre accolades `{}`.
         // Les réponses correctes sont précédées par `=`, et les réponses incorrectes par `~`.
-        `::${q.id}:: ${q.text} {${q.options
+        //je remplace dans les string des questions les : car ils interfèrent avec la validité du format GIFT créé
+        `::${q.id}:: ${q.text.replaceAll(':', '')} {${q.options
           .map((opt) => (q.correct.includes(opt) ? `=${opt}` : `~${opt}`)) // Distinction des réponses correctes/incorrectes.
           .join(" ")}}`
     )
     // Chaque question est séparée par une nouvelle ligne dans le fichier.
-    .join("\n");
+    //je saute de fois à la ligne entre chaque question pour laisser une ligne vide entre 2 question pour la validité du format GIFT créé
+    .join("\n\n")
 
   // Spécifie le chemin où le fichier GIFT sera créé.
   const cheminFichier = "./examen.gift";
