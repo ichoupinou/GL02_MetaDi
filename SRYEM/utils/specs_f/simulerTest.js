@@ -17,7 +17,7 @@ function simulerTest(examQuestions, callback) {
 
   let score = 0;
   let currentQuestion = 0;
-
+  console.log("--- Comment répondre aux questions? --- \n Pour répondre aux questions, entrez le numéro correspondant à la bonne réponse selon vous \n Pour les réponses multiples, entrez uniquement un des réponses, sinon la réponse sera fausse.");
   const askQuestion = () => {
     if (currentQuestion < examQuestions.length) {
       const question = examQuestions[currentQuestion];
