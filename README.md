@@ -90,3 +90,16 @@ Cela permettra de vérifier que toutes les fonctionnalités fonctionnent comme p
 - **Jasmine** : Pour les tests unitaires.
 - **Express** (si utilisé) : Pour le serveur web.
 - **HTML** (si utilisé) : Pour l'interface web.
+
+## Auteurs
+
+Le projet a été initialement développé par l'équipe MetaDi. 
+Notre équipe ERROR303 avons récupéré le logiciel, l'avons amélioré et l'avons adapté à nos besoins dans le cadre de ce projet. 
+Les contributeurs à l'amélioration du code sont :
+ - Anaêlle Melo
+ - Icham Lecorvaisier
+ - Florent Perroux
+
+## Licence
+
+Ce projet est sous la licence MIT
