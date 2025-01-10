@@ -1,7 +1,3 @@
-Voici un exemple de fichier **README.md** pour votre projet :
-
----
-
 # SRYEM
 
 ## Description
@@ -96,10 +92,10 @@ Cela permettra de vérifier que toutes les fonctionnalités fonctionnent comme p
 Le projet a été initialement développé par l'équipe MetaDi. 
 Notre équipe ERROR303 avons récupéré le logiciel, l'avons amélioré et l'avons adapté à nos besoins dans le cadre de ce projet. 
 Les contributeurs à l'amélioration du code sont :
- - Anaêlle Melo
+ - Anaëlle Melo
  - Icham Lecorvaisier
  - Florent Perroux
 
 ## Licence
 
-Ce projet est sous la licence MIT
+Ce projet est un fork de GL02_MetaDi (https://github.com/KarlMh/GL02_MetaDi) sous licence MIT.
